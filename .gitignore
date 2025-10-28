@@ -1,0 +1,16 @@
+# created by virtualenv automatically
+.venv
+.env
+env
+venv
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+CACHEDIR.TAG
+
+# Flask runtime data
+var/
+instance/
+*.db
+*.sqlite3
+*.sqlite
