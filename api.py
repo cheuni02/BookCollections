@@ -6,11 +6,12 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 # db configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 db = SQLAlchemy(app)
 
 # initialise API
 api = Api(app)
+
 
 # Define model
 class BookModel(db.Model):
@@ -21,13 +22,23 @@ class BookModel(db.Model):
     genre = db.Column(db.String(80), nullable=False)
 
     def __repr__(self):
-        return f"BookModel(id = {self.id}, title = {self.title}, author = {self.author}, year_published = {self.year_published}), genre = {self.genre})"
+        return (
+            f"BookModel("
+            f"id = {self.id}, "
+            f"title = {self.title}, "
+            f"author = {self.author}, "
+            f"year_published = {self.year_published}), "
+            f"genre = {self.genre})"
+        )
+
 
 # input validation
 book_args = reqparse.RequestParser()
 book_args.add_argument("title", type=str, required=True, help="title is required")
 book_args.add_argument("author", type=str, required=True, help="author is required")
-book_args.add_argument("year_published", type=int, required=True, help="year is required")
+book_args.add_argument(
+    "year_published", type=int, required=True, help="year is required"
+)
 book_args.add_argument("genre", type=str, required=True, help="genre is required")
 
 # define shape of data / serialisation
@@ -38,6 +49,7 @@ bookFields = {
     "year_published": fields.Integer,
     "genre": fields.String,
 }
+
 
 # defining resource classes: Book, Books
 class Books(Resource):
@@ -52,15 +64,16 @@ class Books(Resource):
     def post(self):
         args = book_args.parse_args()
         book = BookModel(
-            title = args["title"],
-            author = args["author"],
-            year_published = args["year_published"],
-            genre = args["genre"]
+            title=args["title"],
+            author=args["author"],
+            year_published=args["year_published"],
+            genre=args["genre"],
         )
         db.session.add(book)
         db.session.commit()
         books = BookModel.query.all()
         return books, 201
+
 
 class Book(Resource):
     @marshal_with(bookFields)
@@ -69,7 +82,6 @@ class Book(Resource):
         if not book:
             abort(404, message=f"No book found with id {id}")
         return book, 200
-
 
     @marshal_with(bookFields)
     def patch(self, id):
@@ -97,10 +109,11 @@ class Book(Resource):
 
 
 # registering routes
-api.add_resource(Books, '/api/books')
-api.add_resource(Book, '/api/books/<int:id>')
+api.add_resource(Books, "/api/books")
+api.add_resource(Book, "/api/books/<int:id>")
+
 
 # healthcheck
-@app.route('/')
+@app.route("/")
 def homepage():
-    return '<h1> Health check </h1>>'
+    return "<h1> Health check </h1>>"
