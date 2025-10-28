@@ -3,6 +3,8 @@
 .env
 env
 venv
+bin
+lib
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
