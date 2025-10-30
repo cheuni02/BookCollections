@@ -1,4 +1,7 @@
+import time
 from api import app, db, BookModel
+from importlib import resources
+import pandas as pd
 
 class BookDBSeeder:
     seeded_records = [
@@ -34,7 +37,7 @@ class BookDBSeeder:
       }
     ]
 
-    def read_seed_db_from_json(self):
+    def seed_db_from_json(self):
         with app.app_context():
             for record in self.seeded_records:
                 print(record["title"])
@@ -47,6 +50,39 @@ class BookDBSeeder:
                 db.session.add(book)
             db.session.commit()
 
+    def seed_db_from_csv(self, filename):
+        with app.app_context():
+            with resources.files("data").joinpath(filename).open() as f:
+                df = pd.read_csv(f)
+                print(df.to_string())
+
+                for index, row in df.iterrows():
+                    book = BookModel(
+                        title=row["title"],
+                        author=row["author"],
+                        year_published=row["year_published"],
+                        genre=row["genre"]
+                    )
+                    db.session.add(book)
+                db.session.commit()
 
 if __name__ == "__main__":
-    BookDBSeeder().read_seed_db_from_json()
+    print("Seeding database with some book data ...")
+    time.sleep(1)
+    filename = "seeded_book_records.csv"
+    while(True):
+        choice = int(input("Choose from the following:\n"
+                   "1. Seed from JSON file\n"
+                   "2. Seed from CSV file\n"))
+        match(choice):
+            case 1:
+                print("you chose to seed with JSON file\n")
+                BookDBSeeder().seed_db_from_json()
+                break
+            case 2:
+                print("you chose to seed with CSV file\n")
+                print(f"will read from this file: {filename}\n")
+                BookDBSeeder().seed_db_from_csv(filename)
+                break
+            case _:
+                print("you must choose either 1 or 2, try again ...\n")
