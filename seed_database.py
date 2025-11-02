@@ -1,40 +1,43 @@
 import time
-from api import app, db, BookModel
 from importlib import resources
+
 import pandas as pd
+
+from app import BookModel, app, db
+
 
 class BookDBSeeder:
     seeded_records = [
-      {
-        "title": "A Particularly Nasty Case",
-        "author": "Adam Kay",
-        "year_published": 2025,
-        "genre": "Fiction"
-      },
-      {
-        "title": "Night Swimmers",
-        "author": "Roisin Maguire",
-        "year_published": 2024,
-        "genre": "Fiction"
-      },
-      {
-        "title": "Green Dot",
-        "author": "Madeleine Gray",
-        "year_published": 2024,
-        "genre": "Humour"
-      },
-      {
-        "title": "The Cyclist",
-        "author": "Tim Sullivan",
-        "year_published": 2021,
-        "genre": "Crime fiction thriller"
-      },
-      {
-        "title": "Onyx Storm (The Empyrean, #3)",
-        "author": "Rebecca Yarros",
-        "year_published": 2025,
-        "genre": "Fantasy"
-      }
+        {
+            "title": "A Particularly Nasty Case",
+            "author": "Adam Kay",
+            "year_published": 2025,
+            "genre": "Fiction",
+        },
+        {
+            "title": "Night Swimmers",
+            "author": "Roisin Maguire",
+            "year_published": 2024,
+            "genre": "Fiction",
+        },
+        {
+            "title": "Green Dot",
+            "author": "Madeleine Gray",
+            "year_published": 2024,
+            "genre": "Humour",
+        },
+        {
+            "title": "The Cyclist",
+            "author": "Tim Sullivan",
+            "year_published": 2021,
+            "genre": "Crime fiction thriller",
+        },
+        {
+            "title": "Onyx Storm (The Empyrean, #3)",
+            "author": "Rebecca Yarros",
+            "year_published": 2025,
+            "genre": "Fantasy",
+        },
     ]
 
     def seed_db_from_json(self):
@@ -61,20 +64,25 @@ class BookDBSeeder:
                         title=row["title"],
                         author=row["author"],
                         year_published=row["year_published"],
-                        genre=row["genre"]
+                        genre=row["genre"],
                     )
                     db.session.add(book)
                 db.session.commit()
+
 
 if __name__ == "__main__":
     print("Seeding database with some book data ...")
     time.sleep(1)
     filename = "seeded_book_records.csv"
-    while(True):
-        choice = int(input("Choose from the following:\n"
-                   "1. Seed from JSON file\n"
-                   "2. Seed from CSV file\n"))
-        match(choice):
+    while True:
+        choice = int(
+            input(
+                "Choose from the following:\n"
+                "1. Seed from JSON file\n"
+                "2. Seed from CSV file\n"
+            )
+        )
+        match (choice):
             case 1:
                 print("you chose to seed with JSON file\n")
                 BookDBSeeder().seed_db_from_json()
