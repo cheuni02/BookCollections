@@ -42,8 +42,16 @@ This is just practice in making a simple Restful API using Python Flask with the
 
 ## Setting up the DB
 
+Data is stored and persisted in ./instance/database.db
+
 ```
 (<name of virtual env>) -> % python create_db.py
+```
+
+NOTE: To delete the DB it will have to be done manually
+
+```
+(<name of virtual env>) -> %  rm ./instance/database.db
 ```
 
 ## starting server 
