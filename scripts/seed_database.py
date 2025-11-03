@@ -1,7 +1,9 @@
+import sys
 import time
 from importlib import resources
 
 import pandas as pd
+import sqlalchemy
 
 from app import BookModel, app, db
 
@@ -82,15 +84,23 @@ if __name__ == "__main__":
                 "2. Seed from CSV file\n"
             )
         )
-        match (choice):
-            case 1:
-                print("you chose to seed with JSON file\n")
-                BookDBSeeder().seed_db_from_json()
-                break
-            case 2:
-                print("you chose to seed with CSV file\n")
-                print(f"will read from this file: {filename}\n")
-                BookDBSeeder().seed_db_from_csv(filename)
-                break
-            case _:
-                print("you must choose either 1 or 2, try again ...\n")
+        try:
+            match (choice):
+                case 1:
+                    print("you chose to seed with JSON file\n")
+                    BookDBSeeder().seed_db_from_json()
+                    break
+                case 2:
+                    print("you chose to seed with CSV file\n")
+                    print(f"will read from this file: {filename}\n")
+                    BookDBSeeder().seed_db_from_csv(filename)
+                    break
+                case _:
+                    print("you must choose either 1 or 2, try again ...\n")
+        except sqlalchemy.exc.IntegrityError as e:
+            print(
+                f"Error in seeding - has the database already been seeded?\n"
+                f"See stacktrace below:\n{e}"
+            )
+        except Exception:
+            print("Unexpected error:", sys.exc_info()[0])
