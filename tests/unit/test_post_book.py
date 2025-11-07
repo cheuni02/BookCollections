@@ -29,8 +29,6 @@ class TestPostBook(TestCase):
         ):
             resource = Books()
             response, status_code = resource.post()
-            print(response)
-            print(status_code)
             self.assertEqual(len(response), 6)
             self.assertEqual(status_code, 201)
             self.assertEqual(response[5]["title"], "The Life Impossible")
