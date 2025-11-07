@@ -1,0 +1,45 @@
+[[
+        {
+            "id": 1,
+            "title": "A Particularly Nasty Case",
+            "author": "Adam Kay",
+            "year_published": 2025,
+            "genre": "Fiction"
+        },
+        {
+            "id": 2,
+            "title": "Night Swimmers",
+            "author": "Roisin Maguire",
+            "year_published": 2024,
+            "genre": "Fiction"
+        },
+        {
+            "id": 3,
+            "title": "Green Dot",
+            "author": "Madeleine Gray",
+            "year_published": 2024,
+            "genre": "Humour"
+        },
+        {
+            "id": 4,
+            "title": "The Cyclist",
+            "author": "Tim Sullivan",
+            "year_published": 2021,
+            "genre": "Crime fiction thriller"
+        },
+        {
+            "id": 5,
+            "title": "Onyx Storm (The Empyrean, #3)",
+            "author": "Rebecca Yarros",
+            "year_published": 2025,
+            "genre": "Fantasy"
+        },
+        {
+            "id": 6,
+            "title": "The Life Impossible",
+            "author": "Matt Haig",
+            "year_published": 2024,
+            "genre": "Fiction"
+        }
+    ],
+201]
