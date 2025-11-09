@@ -1,3 +1,4 @@
+import sqlalchemy
 from flask_restful import Resource, abort, marshal_with
 
 from app import db
@@ -16,17 +17,25 @@ class Books(Resource):
 
     @marshal_with(bookFields)
     def post(self):
-        args = book_args.parse_args()
-        book = BookModel(
-            title=args["title"],
-            author=args["author"],
-            year_published=args["year_published"],
-            genre=args["genre"],
-        )
-        db.session.add(book)
-        db.session.commit()
-        books = BookModel.query.all()
-        return books, 201
+        try:
+            args = book_args.parse_args()
+            book = BookModel(
+                title=args["title"],
+                author=args["author"],
+                year_published=args["year_published"],
+                genre=args["genre"],
+            )
+            db.session.add(book)
+            db.session.commit()
+            books = BookModel.query.all()
+            return books, 201
+        except sqlalchemy.exc.IntegrityError:
+            db.session.rollback()
+            abort(
+                409,
+                error="Conflict",
+                message="Book already exists. Cannot create this book.",
+            )
 
 
 class Book(Resource):

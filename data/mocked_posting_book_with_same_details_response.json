@@ -1,0 +1,7 @@
+[
+  {
+    "error": "Conflict",
+    "message": "Book already exists. Cannot create this book."
+  },
+  409
+]
