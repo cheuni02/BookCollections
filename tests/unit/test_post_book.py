@@ -19,8 +19,8 @@ class TestPostBook(TestCase):
             "genre": "Fiction",
         }
         self.apiHelper = APIHelpers()
-        response, statusCode = self.apiHelper.requestToBooksAPI(
-            "POST", "app.routes.books.Books.post", payload, self.postBookResponse
+        response, statusCode = self.apiHelper.mockRequestToBooksAPI(
+            "POST", "app.routes.books.Books.post", self.postBookResponse, payload
         )
         self.assertEqual(len(response), 6)
         self.assertEqual(statusCode, 201)
@@ -34,11 +34,11 @@ class TestPostBook(TestCase):
             "genre": "Fantasy",
         }
         self.apiHelper = APIHelpers()
-        response, statusCode = self.apiHelper.requestToBooksAPI(
+        response, statusCode = self.apiHelper.mockRequestToBooksAPI(
             "POST",
             "app.routes.books.Books.post",
-            payload,
             self.postingBookWithSameDetailsResponse,
+            payload,
         )
         print(response)
         self.assertEqual(len(response), 2)
