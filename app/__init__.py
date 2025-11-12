@@ -1,4 +1,3 @@
-# app/__init__.py
 from flask import Flask
 from flask_restful import Api
 from flask_sqlalchemy import SQLAlchemy
@@ -9,7 +8,7 @@ from app.config import Config
 app = Flask(__name__)
 app.config.from_object(Config)
 
-# initialize db and api
+# initialise db and api
 db = SQLAlchemy(app)
 api = Api(app)
 

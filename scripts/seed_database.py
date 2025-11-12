@@ -10,7 +10,6 @@ from app import BookModel, app, db
 
 
 class BookDBSeeder:
-
     def seed_db_from_json(self, filename):
         with app.app_context():
             with resources.files("data").joinpath(filename).open() as f:
@@ -58,7 +57,7 @@ if __name__ == "__main__":
             )
         )
         try:
-            match (choice):
+            match choice:
                 case 1:
                     print("you chose to seed with JSON file\n")
                     BookDBSeeder().seed_db_from_json(json_filename)
