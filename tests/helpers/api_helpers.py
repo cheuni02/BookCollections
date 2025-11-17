@@ -1,7 +1,7 @@
 from unittest import mock
 
 from app import app
-from app.routes.books import Books
+from app.routes.books import Book, Books
 
 
 class APIHelpers:
@@ -21,19 +21,24 @@ class APIHelpers:
                     raise Exception("Unexpected mock method")
             return response, statusCode
 
-    def mockRequestToBooksAPI(self, method, target, mocked_response, payload=None):
+    def mockRequestToBooksAPI(
+        self, method, target, mocked_response, payload=None, BookId=None
+    ):
         with mock.patch(target, return_value=mocked_response):
             with app.test_request_context(
-                "/books",
+                f"/books/{BookId}",
                 method=method,
                 json=payload,
             ):
-                resource = Books()
+                if not BookId:
+                    resource = Books()
+                else:
+                    resource = Book()
                 match method.upper():
                     case "POST":
                         response, statusCode = resource.post()
                     case "GET":
-                        response, statusCode = resource.get()
+                        response, statusCode = resource.get(BookId)
                     case _:
                         raise Exception("Unexpected mock method")
                 return response, statusCode

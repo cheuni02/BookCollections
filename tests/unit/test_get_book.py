@@ -1,8 +1,9 @@
 import unittest
-from unittest import TestCase, mock
+from unittest import TestCase
 
 from app import app
 from app.routes.books import Book
+from tests.helpers.api_helpers import APIHelpers
 
 
 class TestGetBook(TestCase):
@@ -42,13 +43,13 @@ class TestGetBook(TestCase):
             },
             200,
         ]
-        with mock.patch("app.routes.books.Book.get", return_value=mocked_mock_details):
-            test_id = 1
-            resource = Book()
-            response = resource.get(test_id)[0]
-            response_status_code = resource.get(test_id)[1]
 
-            self.assertEqual(response_status_code, 200)
-            test_keys = self.expected_book_details()
-            for key in test_keys[0]:
-                self.assertEqual(response[key], test_keys[0][key])
+        test_id = 1
+        response, statusCode = APIHelpers().mockRequestToBooksAPI(
+            "GET", "app.routes.books.Book.get", mocked_mock_details, BookId=test_id
+        )
+
+        self.assertEqual(statusCode, 200)
+        test_keys = self.expected_book_details()
+        for key in test_keys[0]:
+            self.assertEqual(response[key], test_keys[0][key])
